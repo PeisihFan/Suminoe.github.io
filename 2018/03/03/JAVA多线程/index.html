@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>JAVA多线程</title>
+  <meta name="author" content="John Doe">
+  <meta name="description" content="主要参考:http://blog.csdn.net/evankaka/article/details/44153709
+#多线程的实现方式
+Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其中Thread类 每个线程有独立的资源 而Runnable则是共享内存
+利用Thr">
+  
+  
+  <meta property="og:title" content="JAVA多线程"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Hexo"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="main-ctnr">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        JAVA多线程
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2018-03-03T00:28:51.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2018-03-03
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/Java基础/">Java基础</a>
+
+
+    </div>
+    <hr>
+    
+    <div class="picture-container">
+      
+    </div>
+    <p>主要参考:<a href="http://blog.csdn.net/evankaka/article/details/44153709" target="_blank" rel="noopener">http://blog.csdn.net/evankaka/article/details/44153709</a></p>
+<p>#多线程的实现方式</p>
+<p>Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其中Thread类 每个线程有独立的资源 而Runnable则是共享内存</p>
+<p>利用Thread类实现方式如下，需要注意的是必须使用start()来启动线程才可以实现多个线程同时启动</p>
+<pre><code>public class MyThread extends Thread{
+    private int ticket=3;
+    private String name;
+    public MyThread(String t){
+        name=t;
+    }
+    public void run(){
+        for(int i=0;i&lt;3;i++){
+            if(ticket&gt;0){
+                System.out.println(name+&quot; ticket num:&quot;+ticket);
+                ticket--;
+            }
+        }
+}
+
+public static void main(String args[]){
+    new MyThread(&quot;AAA&quot;).start();
+    new MyThread(&quot;BBB&quot;).start();
+    new MyThread(&quot;CCC&quot;).start();
+
+    //假如这里用new MyThread(&quot;DDD&quot;).run();程序依旧会按顺序执行
+}
+</code></pre><p>利用Runnable实现方式如下，需要注意的是必须要加上synchronized，才可以避免如读了脏数据的错误</p>
+<pre><code>class sellTicket implements Runnable{
+    private int ticket=100;
+    @Override
+    public void run(){
+        while(ticket&gt;0){
+            synchronized(this){
+                if(ticket&gt;0){
+                    System.out.println(Thread.currentThread().getName()+&quot;:&quot;+ticket--);
+                    try{
+                        Thread.sleep(1000);                        
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    return;
+                }
+            }
+        }
+    }
+}
+
+public class RunnableDemo{
+
+    public static void main(String[] args){
+        sellTicket st=new sellTicket();
+
+        Thread ta=new Thread(st,&quot;aa&quot;);
+        Thread tb=new Thread(st,&quot;bb&quot;);
+        Thread tc=new Thread(st,&quot;cc&quot;);
+
+        ta.start();
+        tb.start();
+        tc.start();
+    }            
+
+}
+</code></pre><p>#synchronized<br>synchronized关键字可以作为函数的修饰符，也可作为函数内的语句，也就是平时说的同步方法和同步语句块</p>
+<p>无论synchronized关键字加在方法上还是对象上，它取得的锁都是对象</p>
+<p><strong>synchronized关键字的作用域：</strong></p>
+<p>某个对象实例内，synchronized aMethod(){}可以防止多个线程同时访问这个对象的synchronized方法</p>
+<p>synchronized static aStaticMethod{}防止多个线程同时访问这个类中的synchronized static 方法。它可以对类的所有对象实例起作用。</p>
+<p>synchronized关键字是不能继承的，也就是说，基类的方法synchronized f(){} 在继承类中并不自动是synchronized f(){}，而是变成了f(){}。</p>
+<p>#线程状态的转换<br><img src="http://img.blog.csdn.net/20150309140927553" alt="线程状态转换示意图"></p>
+<p>阻塞的情况分三种：</p>
+<p>（一）、等待阻塞：运行的线程执行wait()方法，JVM会把该线程放入等待池中。(wait会释放持有的锁)</p>
+<p>（二）、同步阻塞：运行的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池中。</p>
+<p>（三）、其他阻塞：运行的线程执行sleep()或join()方法，或者发出了I/O请求时，JVM会把该线程置为阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。（注意,sleep是不会释放持有的锁）</p>
+<p>#join(),yield()方法<br>join是Thread类的一个方法，启动线程后直接调用，即join()的作用是：主线程等待子线程的终止</p>
+<pre><code>public class Main {
+
+    public static void main(String[] args) {
+        System.out.println(Thread.currentThread().getName()+&quot;主线程运行开始!&quot;);
+        Thread1 mTh1=new Thread1(&quot;A&quot;);
+        Thread1 mTh2=new Thread1(&quot;B&quot;);
+        mTh1.start();
+        mTh2.start();
+        try {
+            mTh1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            mTh2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName()+ &quot;主线程运行结束!&quot;);
+
+    }
+
+}
+</code></pre><p>yield():暂停当前正在执行的线程对象，并执行其他线程。</p>
+<p>yield()应该做的是让当前运行线程回到可运行状态，以允许具有相同优先级的其他线程获得运行机会。但是，实际中无法保证yield()达到让步目的，因为让步的线程还有可能被线程调度程序再次选中。</p>
+<pre><code>class ThreadYield extends Thread{
+    public ThreadYield(String name) {
+        super(name);
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i &lt;= 50; i++) {
+            System.out.println(&quot;&quot; + this.getName() + &quot;-----&quot; + i);
+            // 当i为30时，该线程就会把CPU时间让掉，让其他或者自己的线程执行（也就是谁先抢到谁执行）
+            if (i ==30) {
+                this.yield();
+            }
+        }
+
+}
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        ThreadYield yt1 = new ThreadYield(&quot;张三&quot;);
+        ThreadYield yt2 = new ThreadYield(&quot;李四&quot;);
+        yt1.start();
+        yt2.start();
+    }
+
+}
+</code></pre><p><strong>sleep()和yield()的区别</strong></p>
+<p>sleep()使当前线程进入停滞状态，所以执行sleep()的线程在指定的时间内肯定不会被执行；yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
+<p>#synchronized,notify(),wait()<br>synchronized(object),object.notify(),object.wait()这三个必须在一起使用。</p>
+<p>object.wait()就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠</p>
+<p>notify()就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，</p>
+<p>下面是利用synchronized,notify(),wait()实现abc的交替输出</p>
+<pre><code>public class RunnableDemo implements Runnable{
+    private String name;
+    private Object pre;
+    private Object self;
+
+
+    public RunnableDemo(String name,Object pre,Object self){
+        this.name=name;
+        this.pre=pre;
+        this.self=self;
+    }
+    public void run(){
+        int count=10;
+        while(count&gt;0){
+            synchronized(pre){
+                synchronized(self){
+                    System.out.println(name);
+                    count--;
+                    self.notify();
+                }
+                try{
+                    pre.wait();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static void main(String[] args) throws InterruptedException{
+        Object a=new Object();
+        Object b=new Object();
+        Object c=new Object();
+
+        RunnableDemo pa=new RunnableDemo(&quot;AAA&quot;,c,a);
+        RunnableDemo pb=new RunnableDemo(&quot;BBB&quot;,a,b);
+        RunnableDemo pc=new RunnableDemo(&quot;CCC&quot;,b,c);
+
+        new Thread(pa).start();
+        Thread.sleep(100);
+
+        new Thread(pb).start();
+        Thread.sleep(100);
+
+        new Thread(pc).start();
+        Thread.sleep(100);
+    }
+
+}
+</code></pre><p><strong>wait和sleep区别</strong></p>
+<p>Thread类的方法：sleep(),yield()等 </p>
+<p>Object的方法：wait()和notify()等 </p>
+<p>sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。 </p>
+<p>#线程通信</p>
+<p>通过构造方法传递数据 </p>
+<p>通过变量和方法传递数据 </p>
+<p>通过回调函数传递数据 </p>
+<pre><code>class Data 
+{ 
+    public int value = 0; 
+} 
+class Work 
+{ 
+    public void process(Data data, Integer numbers) 
+    { 
+        for (int n : numbers) 
+        { 
+        data.value += n; 
+        } 
+    } 
+} 
+public class MyThread3 extends Thread 
+{ 
+    private Work work; 
+    public MyThread3(Work work) 
+    { 
+        this.work = work; 
+    } 
+    public void run() 
+    { 
+        java.util.Random random = new java.util.Random(); 
+        Data data = new Data(); 
+        int n1 = random.nextInt(1000); 
+        int n2 = random.nextInt(2000); 
+        int n3 = random.nextInt(3000); 
+        work.process(data, n1, n2, n3); // 使用回调函数 
+        System.out.println(String.valueOf(n1) + &quot;+&quot; + String.valueOf(n2) + &quot;+&quot; 
+        + String.valueOf(n3) + &quot;=&quot; + data.value); 
+    } 
+    public static void main(String[] args) 
+    { 
+        Thread thread = new MyThread3(new Work()); 
+        thread.start(); 
+    } 
+} 
+</code></pre>
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        © XXX 20xx-2017
+    </div>
+    <div class="secondrow">
+        <a href="https://github.com/gaoryrt/hexo-theme-pln">
+        Theme Pln
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
