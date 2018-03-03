@@ -148,6 +148,12 @@ public class RunnableDemo{
 }
 </code></pre><p>#synchronized<br>synchronized关键字可以作为函数的修饰符，也可作为函数内的语句，也就是平时说的同步方法和同步语句块</p>
 <p>无论synchronized关键字加在方法上还是对象上，它取得的锁都是对象</p>
+<p><em>方法锁</em>   通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。</p>
+<p>方法一旦执行，就独占该锁.这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态</p>
+<p><em>对象锁</em>   当一个对象中有synchronized method或synchronized block的时候调用此对象的同步方法或进入其同步区域时，就必须先获得对象锁。（方法锁也是对象锁） 　　 　　　 </p>
+<p>线程进入synchronized方法的时候获取该对象的锁，当然如果已经有线程获取了这个对象的锁，那么当前线程会等待。</p>
+<p>方法抛异常的时候，锁仍然可以由JVM来自动释放。　</p>
+<p><em>类锁</em> 一旦一个静态的方法被申明为synchronized。此类所有的实例化对象在调用此方法，共用同一把锁，我们称之为类锁。 </p>
 <p><strong>synchronized关键字的作用域：</strong></p>
 <p>某个对象实例内，synchronized aMethod(){}可以防止多个线程同时访问这个对象的synchronized方法</p>
 <p>synchronized static aStaticMethod{}防止多个线程同时访问这个类中的synchronized static 方法。它可以对类的所有对象实例起作用。</p>
@@ -321,9 +327,9 @@ public class MyThread3 extends Thread
     <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
   </script>
   <div class="busuanzi center">
-    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
-    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
-    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+    页阅读量:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    站访问量:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    站访客数:&nbsp;<span id="busuanzi_value_site_uv"></span>
   </div>
 
 
@@ -340,7 +346,7 @@ public class MyThread3 extends Thread
             <path d="M10 30 L26 16 10 2 Z"></path>
         </svg>
         </a>
-        © Suminoe 2012-2018
+        © Suminoe 2011-2018
     </div>
     <div class="secondrow">
         <a href="https://github.com/gaoryrt/hexo-theme-pln">
