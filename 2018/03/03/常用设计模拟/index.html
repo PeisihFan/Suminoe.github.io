@@ -7,18 +7,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>jvm原理与垃圾回收</title>
+  <title>常用设计模拟</title>
   <meta name="author" content="John Doe">
-  <meta name="description" content="#回收技术1.引用计数法
-当一个对象被创建时，且将该对象实例分配给一个变量，该变量计数设置为1。
-任何引用计数器为0的对象实例可以被当作垃圾收集。
-缺点是无法检查出循环引用
-例子
-public class Main {
-    public static void main(String[] arg">
+  <meta name="description" content="#单例模式
+单例类只能有一个实例。
+单例类必须自己创建自己的唯一实例。
+单例类必须给所有其他对象提供这一实例。
+懒汉模式
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton(){
+
+    }">
   
   
-  <meta property="og:title" content="jvm原理与垃圾回收"/>
+  <meta property="og:title" content="常用设计模拟"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="Hexo"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -49,7 +53,7 @@ public class Main {
       
   
     <h1 class="page-title center">
-        jvm原理与垃圾回收
+        常用设计模拟
     </h1>
   
 
@@ -57,12 +61,12 @@ public class Main {
     </div>
     <div class="meta center">
       
-<time datetime="2018-03-02T11:20:45.000Z">
+<time datetime="2018-03-03T13:44:57.000Z">
 <svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
     <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
   </svg>
   &nbsp;
-  2018-03-02
+  2018-03-03
 </time>
 
 
@@ -86,42 +90,69 @@ public class Main {
     <div class="picture-container">
       
     </div>
-    <p>#回收技术<br>1.引用计数法</p>
-<p>当一个对象被创建时，且将该对象实例分配给一个变量，该变量计数设置为1。</p>
-<p>任何引用计数器为0的对象实例可以被当作垃圾收集。</p>
-<p>缺点是无法检查出循环引用</p>
-<p>例子</p>
-<pre><code>public class Main {
-    public static void main(String[] args) {
-        MyObject object1 = new MyObject();
-        MyObject object2 = new MyObject();
+    <p>#单例模式</p>
+<p>单例类只能有一个实例。</p>
+<p>单例类必须自己创建自己的唯一实例。</p>
+<p>单例类必须给所有其他对象提供这一实例。</p>
+<p><strong>懒汉模式</strong></p>
+<pre><code>class Singleton {
+    private static Singleton instance;
 
-        object1.object = object2;
-        object2.object = object1;
+    private Singleton(){
 
-        object1 = null;
-        object2 = null;
+    }
+
+    public static synchronized Singleton getInstance(){//假如不加同步的话 多线程并行的时候就会创建多个实例
+        if(instance==null){
+            instance=new Singleton();
+
+        }
+        return instance;
     }
 }
-</code></pre><p>2.java 分代回收</p>
-<p>所有新生成的对象首先都是放在年轻代的。年轻代大约按照8:1:1分成eden区，surivor0区，surviror1区，当minor GC(不一定需要eden满)时候，复制存活的对象到s0区，清空e区 ，当s0区满的时候，复制s0和e存活的对象到s1区，清空s0和eden区，再交换s0区和s1区，s1区保持为空，当当survivor1区不足以存放 eden和survivor0的存活对象时，就将存活对象直接存放到老年代。</p>
-<p>若是老年代也满了就会触发一次Full GC，也就是新生代、老年代都进行回收<br>老年代内存比新生代也大很多(大概比例是1:2)，</p>
-<p>持久代用于存放静态文件，如Java类、方法等</p>
-<p>3.python 分代回收</p>
-<p>python将所有的对象分成三代（0代、1代、2代）。新建对象都是0代对象。如果对象经历了一次垃圾回收后依然存活，就变成下一代对象。垃圾回收时，会扫描所有的0代对象，0代对象扫描次数到达一个阈值后，扫描1代对象，1代对象扫描次数到达另一个阈值后，扫描2代对象，如此循环。</p>
-<p>4.标记清除法</p>
-<p>标记-清除算法采用从根集合进行扫描，对存活的对象对象标记，标记完毕后，再扫描整个空间中未被标记的对象，进行回收。</p>
-<p>#jvm工作原理<br><img src="https://upload-images.jianshu.io/upload_images/3661808-f8735ffb125da469.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/557" alt="jvm示意图"></p>
-<p>1.PC程序计数器(线程私有)</p>
-<p>存储每个线程下一步将执行的JVM指令 每个线程都有一个自己的PC，以便完成不同线程上下文环境的切换。</p>
-<p>2.JAVA虚拟机栈(线程私有)</p>
-<p>每个<strong>方法</strong>被执行的时候都会同时创建一个栈帧（Stack Frame）用于<strong>存储局部变量表、操作数栈、动态链接、方法出口</strong>等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。</p>
-<p>3.本地方法栈(线程私有)</p>
-<p>虚拟机使用到的本地方法服务。</p>
-<p>4.Java堆(共享内存)</p>
-<p>存储<strong>对象实例</strong>以及<strong>数组值</strong>的，<br>Java中所有通过new创建的对象的内存都在此分配。在这里实行回收机制</p>
-<p>5.方法区(共享内存)</p>
-<p>存储每一个<strong>类的结构信息</strong>，例如运行时常量池，成员变量和方法数据，构造函数和普通函数的字节码内容</p>
+</code></pre><p>缺点：降低整个访问的速度，而且每次获取对象都要判断。</p>
+<p><strong>双重检查锁</strong></p>
+<p>只需要同步一次了，从而减少了多次在同步情况下进行判断所浪费的时间。它只是在第一次创建实例的时候同步，以后就不需要同步了。</p>
+<pre><code>public class Singleton {  
+    //volatile保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。  
+    private volatile static Singleton singleton;
+
+    private Singleton (){}  
+
+    public static Singleton getSingleton() {  
+        if (singleton == null) {  
+            synchronized (Singleton.class) {  
+                if (singleton == null) {  //防止有多个进程都进入了第一个if
+                    singleton = new Singleton();  
+                }  
+            }  
+        }  
+            return singleton;  
+    }  
+}  
+</code></pre><p><strong>饿汉模式</strong></p>
+<pre><code>public class Singleton{
+    //类加载时就初始化
+    private static final Singleton instance = new Singleton();
+
+    private Singleton(){}
+    public static Singleton getInstance(){
+        return instance;
+    }
+}
+</code></pre><p>缺点:它不是一种懒加载模式（lazy initialization），单例会在加载类后一开始就被初始化<br>假如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了。</p>
+<p><strong>静态内部类</strong>‘</p>
+<pre><code>public class Singleton {  
+    private static class SingletonHolder {  
+        private static final Singleton INSTANCE = new Singleton();  
+    }  
+    private Singleton (){}  
+    public static final Singleton getInstance() {  
+        return SingletonHolder.INSTANCE; 
+    }  
+}
+</code></pre><p>使用JVM本身机制保证了线程安全问题。</p>
+<p>在该方法中，Singleton有一个静态内部类，内部类在外部类加载的时候并不会加载，只有在调用getInstance方法的时候加载SingletonHolder类。</p>
 
 
   </article>
