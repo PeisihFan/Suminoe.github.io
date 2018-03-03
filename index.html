@@ -204,7 +204,7 @@ public class Main {
   
     <h1 class="index-title">
         <a href="/2018/03/02/链表判断是否有环/">
-            链表判断是否有环
+            链表常用操作
         </a>
     </h1>
   
@@ -212,10 +212,11 @@ public class Main {
 
   <div class="excerpt">
   
-    可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。
-public boolean isARang(ListNode head){
-    ListNode fast=head.next;
-    ListNode slow=hea
+    判断链表是否有环
+可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。
+public boolean findLoopPort(ListNode head){
+    if(head==null||head.next==null)
+
   
   <a href="/2018/03/02/链表判断是否有环/">
     更多

@@ -7,18 +7,18 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>链表判断是否有环</title>
+  <title>链表常用操作</title>
   <meta name="author" content="John Doe">
-  <meta name="description" content="可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。
-public boolean isARang(ListNode head){
-    ListNode fast=head.next;
-    ListNode slow=head;
+  <meta name="description" content="判断链表是否有环
+可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。
+public boolean findLoopPort(ListNode head){
+    if(head==null||head.next==null)
+        return false;
 
-    while(fast!=null){
-   ">
+    Lis">
   
   
-  <meta property="og:title" content="链表判断是否有环"/>
+  <meta property="og:title" content="链表常用操作"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="Hexo"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -49,7 +49,7 @@ public boolean isARang(ListNode head){
       
   
     <h1 class="page-title center">
-        链表判断是否有环
+        链表常用操作
     </h1>
   
 
@@ -86,35 +86,63 @@ public boolean isARang(ListNode head){
     <div class="picture-container">
       
     </div>
-    <p>可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。</p>
-<pre><code>public boolean isARang(ListNode head){
-    ListNode fast=head.next;
+    <p><strong>判断链表是否有环</strong></p>
+<p>可以用快指针与慢指针来解决，有环的话快指针必然会追上慢指针。</p>
+<pre><code>public boolean findLoopPort(ListNode head){
+    if(head==null||head.next==null)
+        return false;
+
+    ListNode fast=head;
     ListNode slow=head;
 
-    while(fast!=null){
+    while(fast!=null&amp;&amp;fast.next!=null){
+        fast=fast.next.next;
+        slow=slow.next;
         if(fast==slow){
-            return true;
-        }else{
-            fast=fast.next;
-            if(fast==null){
-                return false;
-            }else{
-                fast=fast.next;
-                slow=slow.next;
-            }
+            break;
         }
     }
-    return false;
+
+    if(fast!=slow)
+        return false;
+    else
+        return true;
 }
-</code></pre><p>此外快慢指针还可以用来寻找链表的中点</p>
+</code></pre><p>值得注意的是寻找环入口有个方法</p>
+<p>假定起点到环入口点的距离为 a，slow 和 fast 的相交点M与环入口点的距离为b，环路的周长为L，当 slow 和 fast 第一次相遇的时候，假定 slow 走了 n 步。那么有：</p>
+<p>p1走的路径： a+b ＝ n；<br>p2走的路径： a+b+k<em>L = 2</em>n； fast 比 slow 多走了k圈环路，总路程是slow的2倍</p>
+<p>根据上述公式可以得到 k*L=a+b=n显然，如果从相遇点M开始，slow 再走 n 步的话，还可以再回到相遇点，同时fast从头开始走的话，经过n步，也会达到相遇点M。</p>
+<p>显然在这个步骤当中 slow 和 fast 只有前 a 步走的路径不同，所以当 slow 和 fast 再次重合的时候，必然是在链表的环路入口点上。</p>
+<p>因此可以这样寻找</p>
+<p>按照 fast 每次两步，slow 每次一步的方式走，发现 fast 和 slow 重合，确定了单向链表有环路了。接下来，让fast回到链表的头部，重新走，每次步长不是走2了，而是走1，那么当 fast 和 slow 再次相遇的时候，就是环路的入口了。</p>
+<p><strong>寻找链表中点</strong><br>此外快慢指针还可以用来寻找链表的中点</p>
 <pre><code>public ListNode findMindle(ListNode head){
     ListNode slow=head;
     ListNode fast=head.next;
     while(fast!=null&amp;&amp;fast.next!=null){
         slow=slow.next;
-        fast.next=fast.next.next;
+        fast=fast.next.next;
     }
     return slow;
+}
+</code></pre><p><strong>链表反转</strong></p>
+<pre><code>public ListNode listReversed(ListNode head){
+   if(head==null||head.next==null){
+
+       return head;
+   }
+    ListNode p=head;
+    ListNode q=head.next;
+    while(q.next!=null){
+        ListNode t=q.next;
+        q.next=head;
+        head=q;
+        q=t;
+    }
+    q.next=head;
+    p.next=null;
+
+    return q;
 }
 </code></pre>
 
