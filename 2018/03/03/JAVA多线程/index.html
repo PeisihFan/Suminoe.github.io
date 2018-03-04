@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>JAVA多线程</title>
+  <title>Java多线程</title>
   <meta name="author" content="John Doe">
   <meta name="description" content="主要参考:http://blog.csdn.net/evankaka/article/details/44153709
 #多线程的实现方式
@@ -15,7 +15,7 @@ Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其�
 利用Thr">
   
   
-  <meta property="og:title" content="JAVA多线程"/>
+  <meta property="og:title" content="Java多线程"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="Hexo"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -46,7 +46,7 @@ Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其�
       
   
     <h1 class="page-title center">
-        JAVA多线程
+        Java多线程
     </h1>
   
 
@@ -221,8 +221,8 @@ public class Main {
 </code></pre><p><strong>sleep()和yield()的区别</strong></p>
 <p>sleep()使当前线程进入停滞状态，所以执行sleep()的线程在指定的时间内肯定不会被执行；yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
 <p>#synchronized,notify(),wait()<br>synchronized(object),object.notify(),object.wait()这三个必须在一起使用。</p>
-<p>object.wait()就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠</p>
-<p>notify()就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，</p>
+<p>object.wait()就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠，直到其他线程调用了该对象的notify方法，才结束休眠。</p>
+<p>notify()该方法唤醒在该对象上等待的某个线程，就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，</p>
 <p>下面是利用synchronized,notify(),wait()实现abc的交替输出</p>
 <pre><code>public class RunnableDemo implements Runnable{
     private String name;
