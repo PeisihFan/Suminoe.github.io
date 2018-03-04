@@ -153,6 +153,150 @@ class Singleton {
 }
 </code></pre><p>使用JVM本身机制保证了线程安全问题。</p>
 <p>在该方法中，Singleton有一个静态内部类，内部类在外部类加载的时候并不会加载，只有在调用getInstance方法的时候加载SingletonHolder类。</p>
+<p>#工厂模式</p>
+<p><strong>简单工厂</strong></p>
+<p><img src="http://design-patterns.readthedocs.io/zh_CN/latest/_images/SimpleFactory.jpg" alt="简单工厂"></p>
+<pre><code>interface Shape{
+    public void draw();
+}
+
+class A implements Shape{
+    public void draw(){
+        System.out.println(&quot;AAA&quot;);
+    }
+}
+class B implements Shape{
+    public void draw(){
+        System.out.println(&quot;BBB&quot;);
+    }
+}
+class C implements Shape{
+    public void draw(){
+        System.out.println(&quot;CCC&quot;);
+    }
+}
+class SimpleFactory {
+    public static Shape getShape(String type){
+        Shape s=null;
+        if(type.equals(&quot;A&quot;)){
+            s=new A();
+        }else if(type.equals(&quot;B&quot;)){
+            s=new A();
+        }else if(type.equals(&quot;C&quot;)){
+            s=new A();
+        }
+        return s;
+
+    }
+}
+</code></pre><p><strong>工厂方法</strong></p>
+<p>简单来说就是每样产品都要为它添加一个工厂(最常用)<br><img src="http://design-patterns.readthedocs.io/zh_CN/latest/_images/FactoryMethod.jpg" alt="工厂方法"></p>
+<pre><code>interface Shape{
+    public void draw();
+}
+
+class A implements Shape{
+    public void draw(){
+        System.out.println(&quot;AAA&quot;);
+    }
+}
+class B implements Shape{
+    public void draw(){
+        System.out.println(&quot;BBB&quot;);
+    }
+}
+class C implements Shape{
+    public void draw(){
+        System.out.println(&quot;CCC&quot;);
+    }
+}
+
+interface F{
+    public Shape getShape();
+}
+
+class FA implements F{
+    public Shape getShape(){
+        return new A();
+    }
+}
+
+class FB implements F{
+    public Shape getShape(){
+        return new B();
+    }
+}
+
+class FC implements F{
+    public Shape getShape(){
+        return new C();
+    }
+}
+</code></pre><p><strong>抽象工厂</strong></p>
+<p><img src="http://design-patterns.readthedocs.io/zh_CN/latest/_images/AbatractFactory.jpg" alt="抽象工厂"></p>
+<pre><code>interface Char{
+    public void getChar();
+}
+
+class A1 implements Char{
+    public void getChar(){
+        System.out.println(&quot;AAA&quot;);
+    }
+}
+
+class B1 implements Char{
+    public void getChar(){
+        System.out.println(&quot;BBB&quot;);
+    }
+}
+
+
+interface Num{
+    public void getNum();
+}
+
+class A2 implements Num{
+    public void getNum(){
+        System.out.println(&quot;111&quot;);
+    }
+}
+
+class B2 implements Num{
+    public void getNum(){
+        System.out.println(&quot;222&quot;);
+    }
+}
+
+
+interface F{
+    public Num printNum();
+    public Char printChar(); 
+}
+
+class P1 implements F{
+    public Num printNum(){
+        return new A2();
+    }
+
+    public Char printChar(){
+        return new A1();
+    }
+}
+public class Factroy{
+    public static void main(String args[]){
+        F f;
+        Num n;
+        Char c;
+
+        f=new P1();
+        n=f.printNum();
+        c=f.printChar();
+
+        n.getNum();
+        c.getChar();
+    }
+}
+</code></pre><p>简单好记的方法 三种工厂分别要实现1，2.3个接口</p>
 
 
   </article>

@@ -222,7 +222,7 @@ public class Main {
 <p>sleep()使当前线程进入停滞状态，所以执行sleep()的线程在指定的时间内肯定不会被执行；yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
 <p>#synchronized,notify(),wait()<br>synchronized(object),object.notify(),object.wait()这三个必须在一起使用。</p>
 <p>object.wait()就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠，直到其他线程调用了该对象的notify方法，才结束休眠。</p>
-<p>notify()该方法唤醒在该对象上等待的某个线程，就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，</p>
+<p>notify()该方法唤醒<strong>在该对象上</strong>等待的某个线程，就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，</p>
 <p>下面是利用synchronized,notify(),wait()实现abc的交替输出</p>
 <pre><code>public class RunnableDemo implements Runnable{
     private String name;
@@ -238,14 +238,14 @@ public class Main {
     public void run(){
         int count=10;
         while(count&gt;0){
-            synchronized(pre){
-                synchronized(self){
+            synchronized(pre){//c在这里等待
+                synchronized(self){//b在这里等待
                     System.out.println(name);
                     count--;
-                    self.notify();
+                    self.notify();//唤醒在该对象等待的线程 b有个a对象 所以唤醒的是b
                 }
                 try{
-                    pre.wait();
+                    pre.wait();//叫c睡觉
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }
