@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>Java中的内部类</title>
+  <meta name="author" content="John Doe">
+  <meta name="description" content="内部类可以有访问修饰服，甚至可以被标记为 abstract 或 final。 内部类与外部类实例有特殊的关系，这种关系允许内部类访问外部类的成员，也包括私有成员。
+Inner Class
+一个内部类被声明在另外一个类当中：
+class MyOuterClassDemo {
+   private in">
+  
+  
+  <meta property="og:title" content="Java中的内部类"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Hexo"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="main-ctnr">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        Java中的内部类
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2018-03-06T02:37:42.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2018-03-06
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/Java基础/">Java基础</a>
+
+
+    </div>
+    <hr>
+    
+    <div class="picture-container">
+      
+    </div>
+    <p>内部类可以有访问修饰服，甚至可以被标记为 abstract 或 final。 内部类与外部类实例有特殊的关系，这种关系允许内部类访问外部类的成员，也包括私有成员。</p>
+<p><strong>Inner Class</strong></p>
+<p>一个内部类被声明在另外一个类当中：</p>
+<pre><code>class MyOuterClassDemo {
+   private int myVar= 1;
+
+   // inner class definition
+   class MyInnerClassDemo {
+      public void seeOuter () {
+         System.out.println(&quot;Value of myVar is :&quot; + myVar);
+      }
+    } // close inner class definition
+
+} // close Top l
+</code></pre><p><strong>局部内部类</strong></p>
+<p>局部内部类被定义在外部类的方法当中。</p>
+<p>如果你想使用内部类，必须同一方法中实例化内部类</p>
+<p>只有 abstract 和 final 这两个修饰符被允许修饰局部内部类</p>
+<p>只有在方法的局部变量被标记为 final 或 局部变量是 effectively final的， 内部类才能使用它们。</p>
+<pre><code>class MyOuterClassDemo {
+     private int x= 1;
+
+     public void doThings(){
+        String name =&quot;local variable&quot;; // name is effectively final
+        // inner class defined inside a method of outer class
+        class MyInnerClassDemo {
+          public void seeOuter() {
+             System.out.println(&quot;Outer Value of x is :&quot; + x);
+             System.out.println(&quot;Value of name is :&quot; + name);
+          } //close inner class method
+        } // close inner class definition
+        MyInnerClassDemo inner = new MyInnerClassDemo();
+        inner.seeOuter();
+     } //close Top level class method
+     public static void main(String[] args){
+         MyOuterClassDemo outer = new MyOuterClassDemo();
+         outer.doThings();
+     }
+} //
+</code></pre><p><strong>匿名内部类</strong>(imporant)</p>
+<p>匿名内部类有以下特点：</p>
+<p>1.没有名字</p>
+<p>2.只能被实例化一次</p>
+<p>3.通常被声明在方法或代码块的内部，以一个带有分号的花括号结尾</p>
+<p>4.因为没有名字，所以没有构造函数</p>
+<p>5.不能是静态的（static)</p>
+<pre><code>abstract class Animal {
+    abstract void play();
+}
+
+class Person{
+    public static void main(String[] args){
+        Animal d = new Animal(){
+            void play(){
+                System.out.println(&quot;play with human&quot;);
+            }
+        };
+        d.play();
+    }
+}
+</code></pre><p>1、使用匿名内部类时，我们必须是继承一个类或者实现一个接口，但是两者不可兼得，同时也只能继承一个类或者实现一个接口。</p>
+<p>2、匿名内部类中是不能定义构造函数的。</p>
+<p>3、匿名内部类中不能存在任何的静态成员变量和静态方法。</p>
+<p>4、匿名内部类为局部内部类，所以局部内部类的所有限制同样对匿名内部类生效。</p>
+<p>5、匿名内部类不能是抽象的，它必须要实现继承的类或者实现的接口的所有抽象方法。</p>
+<p>有一点很重要<strong>当所在的方法的形参需要被内部类里面使用时，该形参必须为final。</strong></p>
+<p>为什么必须要为final呢？</p>
+<p>首先我们知道在内部类编译成功后，它会产生一个class文件，该class文件与外部类并不是同一class文件，仅仅只保留对外部类的引用。当外部类传入的参数需要被内部类调用时，从java程序的角度来看是直接被调用：</p>
+<pre><code>public class OuterClass {
+    public void display(final String name,String age){
+        class InnerClass{
+            void display(){
+                System.out.println(name);
+            }
+        }
+    }
+}
+</code></pre><p>从上面代码中看好像name参数应该是被内部类直接调用？其实不然，在java编译之后实际的操作如下：</p>
+<pre><code>public class OuterClass$InnerClass {
+    public InnerClass(String name,String age){
+        this.InnerClass$name = name;
+        this.InnerClass$age = age;
+    }
+
+
+    public void display(){
+        System.out.println(this.InnerClass$name + &quot;----&quot; + this.InnerClass$age );
+    }
+}
+</code></pre><p>简单理解就是，拷贝引用，为了避免引用值发生改变，例如被外部类的方法修改等，而导致内部类得到的值不一致，于是用final来让该引用不可改变。</p>
+<p>故如果定义了一个匿名内部类，并且希望它使用一个其外部定义的参数，那么编译器会要求该参数引用是final的。</p>
+<p>匿名内部类初始化</p>
+<p>我们一般都是利用构造器来完成某个实例的初始化工作的，但是匿名内部类是没有构造器的！那怎么来初始化匿名内部类呢？使用构造代码块！利用构造代码块能够达到为匿名内部类创建一个构造器的效果。</p>
+<pre><code>public class OutClass {
+    public InnerClass getInnerClass(final int age,final String name){
+        return new InnerClass() {
+            int age_ ;
+            String name_;
+            //构造代码块完成初始化工作
+            {
+                if(0 &lt; age &amp;&amp; age &lt; 200){
+                    age_ = age;
+                    name_ = name;
+                }
+            }
+            public String getName() {
+                return name_;
+            }
+
+            public int getAge() {
+                return age_;
+            }
+        };
+    }
+
+    public static void main(String[] args) {
+        OutClass out = new OutClass();
+
+        InnerClass inner_1 = out.getInnerClass(201, &quot;chenssy&quot;);
+        System.out.println(inner_1.getName());
+
+        InnerClass inner_2 = out.getInnerClass(23, &quot;chenssy&quot;);
+        System.out.println(inner_2.getName());
+    }
+}
+</code></pre>
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        © Suminoe 2011-2018
+    </div>
+    <div class="secondrow">
+        <a href="https://github.com/gaoryrt/hexo-theme-pln">
+        Theme Pln
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
