@@ -7,18 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>jvm原理与垃圾回收</title>
+  <title>动态规划</title>
   <meta name="author" content="John Doe">
-  <meta name="description" content="#回收技术1.引用计数法
-当一个对象被创建时，且将该对象实例分配给一个变量，该变量计数设置为1。
-任何引用计数器为0的对象实例可以被当作垃圾收集。
-缺点是无法检查出循环引用
-例子
-public class Main {
-    public static void main(String[] arg">
+  <meta name="description" content="动态规划的关键就是寻找状态转移函数。">
   
   
-  <meta property="og:title" content="jvm原理与垃圾回收"/>
+  <meta property="og:title" content="动态规划"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="Hexo"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -49,7 +43,7 @@ public class Main {
       
   
     <h1 class="page-title center">
-        jvm原理与垃圾回收
+        动态规划
     </h1>
   
 
@@ -57,12 +51,12 @@ public class Main {
     </div>
     <div class="meta center">
       
-<time datetime="2018-03-02T11:20:45.000Z">
+<time datetime="2018-03-04T14:34:21.000Z">
 <svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
     <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
   </svg>
   &nbsp;
-  2018-03-02
+  2018-03-04
 </time>
 
 
@@ -77,7 +71,7 @@ public class Main {
       <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
     </svg>
     &nbsp;
-    <a href="/tags/Java基础/">Java基础</a>
+    <a href="/tags/算法/">算法</a>
 
 
     </div>
@@ -86,42 +80,7 @@ public class Main {
     <div class="picture-container">
       
     </div>
-    <p>#回收技术<br>1.引用计数法</p>
-<p>当一个对象被创建时，且将该对象实例分配给一个变量，该变量计数设置为1。</p>
-<p>任何引用计数器为0的对象实例可以被当作垃圾收集。</p>
-<p>缺点是无法检查出循环引用</p>
-<p>例子</p>
-<pre><code>public class Main {
-    public static void main(String[] args) {
-        MyObject object1 = new MyObject();
-        MyObject object2 = new MyObject();
-
-        object1.object = object2;
-        object2.object = object1;
-
-        object1 = null;
-        object2 = null;
-    }
-}
-</code></pre><p>2.java 分代回收</p>
-<p>所有新生成的对象首先都是放在年轻代的。年轻代大约按照8:1:1分成eden区，surivor0区，surviror1区，当minor GC(不一定需要eden满)时候，复制存活的对象到s0区，清空e区 ，当s0区满的时候，复制s0和e存活的对象到s1区，清空s0和eden区，再交换s0区和s1区，s1区保持为空，当当survivor1区不足以存放 eden和survivor0的存活对象时，就将存活对象直接存放到老年代。</p>
-<p>若是老年代也满了就会触发一次Full GC，也就是新生代、老年代都进行回收<br>老年代内存比新生代也大很多(大概比例是1:2)，</p>
-<p>持久代用于存放静态文件，如Java类、方法等</p>
-<p>3.python 分代回收</p>
-<p>python将所有的对象分成三代（0代、1代、2代）。新建对象都是0代对象。如果对象经历了一次垃圾回收后依然存活，就变成下一代对象。垃圾回收时，会扫描所有的0代对象，0代对象扫描次数到达一个阈值后，扫描1代对象，1代对象扫描次数到达另一个阈值后，扫描2代对象，如此循环。</p>
-<p>4.标记清除法</p>
-<p>标记-清除算法采用从根集合进行扫描，对存活的对象对象标记，标记完毕后，再扫描整个空间中未被标记的对象，进行回收。</p>
-<p>#jvm工作原理<br><img src="https://upload-images.jianshu.io/upload_images/3661808-f8735ffb125da469.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/557" alt="jvm示意图"></p>
-<p>1.PC程序计数器(线程私有)</p>
-<p>存储每个线程下一步将执行的JVM指令 每个线程都有一个自己的PC，以便完成不同线程上下文环境的切换。</p>
-<p>2.JAVA虚拟机栈(线程私有)</p>
-<p>每个<strong>方法</strong>被执行的时候都会同时创建一个栈帧（Stack Frame）用于<strong>存储局部变量表、操作数栈、动态链接、方法出口</strong>等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。</p>
-<p>3.本地方法栈(线程私有)</p>
-<p>虚拟机使用到的本地方法服务。</p>
-<p>4.Java堆(共享内存)</p>
-<p>存储<strong>对象实例</strong>以及<strong>数组值</strong>的，<br>Java中所有通过new创建的对象的内存都在此分配。在这里实行回收机制</p>
-<p>5.方法区(共享内存)</p>
-<p>存储每一个<strong>类的结构信息</strong>，例如运行时常量池，成员变量和方法数据，构造函数和普通函数的字节码内容</p>
+    <p> 动态规划的关键就是寻找状态转移函数。</p>
 
 
   </article>
