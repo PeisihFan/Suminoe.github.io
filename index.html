@@ -85,6 +85,122 @@
   
   
     <h1 class="index-title">
+        <a href="/2018/03/07/数据库中的索引/">
+            数据库中的索引
+        </a>
+    </h1>
+  
+
+
+  <div class="excerpt">
+  
+    索引相关的数据结构和算法
+B+Tree
+第一，所有的关键字（可以理解为数据）都存储在叶子节点（Leaf Page），非叶子节点（Index Page）并不存储真正的数据，所有记录节点都是按键值大小顺序存放在同一层叶子节点上。其次，所有的叶子
+  
+  <a href="/2018/03/07/数据库中的索引/">
+    更多
+  </a>
+  </div>
+  <div class="index-meta">
+    
+<time datetime="2018-03-07T11:57:13.000Z" itemprop="datePublished">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  03-07
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/数据库/">数据库</a>
+
+
+  </div>
+</li>
+</div>
+<hr>
+
+
+
+
+  
+    
+<div>
+<li class="post-item">
+  
+  
+    <h1 class="index-title">
+        <a href="/2018/03/07/Java中的异常类/">
+            Java中的异常类
+        </a>
+    </h1>
+  
+
+
+  <div class="excerpt">
+  
+    Java异常类的继承关系.
+
+异常本质上分为两种:
+检查异常(CheckedException)
+顾名思义，这个异常抛出来，我们可以抓住它(也就是传说中的try-catch-finally系列)，这类异常通常是在设计者考虑之内的 、可处理异
+  
+  <a href="/2018/03/07/Java中的异常类/">
+    更多
+  </a>
+  </div>
+  <div class="index-meta">
+    
+<time datetime="2018-03-07T00:50:07.000Z" itemprop="datePublished">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  03-07
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/Java基础/">Java基础</a>
+
+
+  </div>
+</li>
+</div>
+<hr>
+
+
+
+
+  
+    
+<div>
+<li class="post-item">
+  
+  
+    <h1 class="index-title">
         <a href="/2018/03/06/Java中的内部类/">
             Java中的内部类
         </a>
@@ -100,7 +216,7 @@ Inner Class
 class My
   
   <a href="/2018/03/06/Java中的内部类/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -152,11 +268,13 @@ class My
 
   <div class="excerpt">
   
-    红黑树的5个性质
-1每个结点要么是红的要么是黑的。2根结点是黑的。3每个叶结点（叶结点即指树尾端NIL指针或NULL结点）都是黑的。4如果一个结点是红的，那么它的两个儿子都是黑的。5对于任意结点而言，其到叶结点树尾端NIL指针的每条路径都包
+    红黑树 并不追求“完全平衡 ”——它只要求部分地达到平衡要求，降低了对旋转的要求，从而提高了性能。
+红黑树能够以 O(log2  n)  的时间复杂度进行搜索、插入、删除操作。
+红黑树的5个性质
+1每个结点要么是红的要么是黑的。2根结点是黑
   
   <a href="/2018/03/05/红黑树/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -211,7 +329,7 @@ class My
     动态规划的关键就是寻找状态转移函数。
   
   <a href="/2018/03/04/动态规划/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -263,11 +381,11 @@ class My
 
   <div class="excerpt">
   
-    #多态对于多态，可以总结以下几点：
-一、使用父类类型的引用指向子类的对象；二、该引用只能调用父类中定义的方法和变量；三、如果子类中重写了父类中的一个方法，那么在调用这个方法的时候，将会调用子类中的这个方法；（动态连接、动态调用）四、变量不能
+    #类型转换1.byte,short,char-&gt; int -&gt; long -&gt; float -&gt; double低可以自动转高高需要强制转低
+2.包装类型中Interger 赋予的int数值在-128 - 127的时候
   
   <a href="/2018/03/04/Java的零碎知识点/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -330,7 +448,7 @@ class Singleton {
  
   
   <a href="/2018/03/03/常用设计模拟/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -387,7 +505,7 @@ class Singleton {
 Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其中Thread类 每个
   
   <a href="/2018/03/03/Java多线程/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -448,7 +566,7 @@ public class Main {
     public
   
   <a href="/2018/03/02/jvm原理与垃圾回收/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
@@ -507,7 +625,7 @@ public boolean findLoopPort(ListNode head){
 
   
   <a href="/2018/03/02/链表判断是否有环/">
-    more
+    更多
   </a>
   </div>
   <div class="index-meta">
