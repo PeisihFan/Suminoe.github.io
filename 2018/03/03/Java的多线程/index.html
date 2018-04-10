@@ -10,9 +10,9 @@
   <title>Java的多线程</title>
   <meta name="author" content="John Doe">
   <meta name="description" content="主要参考:http://blog.csdn.net/evankaka/article/details/44153709
-#多线程的实现方式
-Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其中Thread类 每个线程有独立的资源 而Runnable则是共享内存
-利用Thr">
+#进程于线程的区别1) 简而言之,一个程序至少有一个进程,一个进程至少有一个线程.
+2) 线程的划分尺度小于进程，使得多线程程序的并发性高。
+3) 另外，进程在执行过程中拥有独立的">
   
   
   <meta property="og:title" content="Java的多线程"/>
@@ -84,6 +84,11 @@ Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其�
       
     </div>
     <p>主要参考:<a href="http://blog.csdn.net/evankaka/article/details/44153709" target="_blank" rel="noopener">http://blog.csdn.net/evankaka/article/details/44153709</a></p>
+<p>#进程于线程的区别<br>1) 简而言之,一个程序至少有一个进程,一个进程至少有一个线程.</p>
+<p>2) 线程的划分尺度小于进程，使得多线程程序的并发性高。</p>
+<p>3) 另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。</p>
+<p>4) 线程在执行过程中与进程还是有区别的。每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口。但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制。</p>
+<p>5) 从逻辑角度来看，多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。这就是进程和线程的重要区别。</p>
 <p>#多线程的实现方式</p>
 <p>Java中多线程实现由两种方式 继承Thread和实现接口Runnable，其中Thread类 每个线程有独立的资源 而Runnable则是共享内存</p>
 <p>利用Thread类实现方式如下，需要注意的是必须使用start()来启动线程才可以实现多个线程同时启动</p>
